@@ -18,7 +18,7 @@ function fetchEmployees() {
         const deleteCell = document.createElement('td')
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'deleteBtn');
 
         deleteCell.appendChild(deleteButton);
 
@@ -46,9 +46,18 @@ function createEmployee(e) {
   // send data to BE
   // call fetchEmployees
   e.preventDefault();
-  console.log("click");
+  var DeleteButtons = document.getElementsByClassName('deleteBtn');
   let url = 'http://localhost:3000/api/v1/employee';
   let data = { id: document.getElementById('id').value, name: document.getElementById('name').value };
+
+  for (var i = 0; i < DeleteButtons.length; i++) {
+    if (DeleteButtons[i].id == data.id) {
+      alert("ID already exists");
+      return;
+    }
+  }
+  console.log("click");
+
   console.log("data", data);
   fetch(url, {
     method: 'POST',
